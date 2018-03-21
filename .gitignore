@@ -5,6 +5,9 @@
 *.DS_Store
 .AppleDouble
 .LSOverride
+node_modules
+.DS_Store
+.env
 
 # Icon must end with two \r
 Icon
