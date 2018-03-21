@@ -1,20 +1,37 @@
 
 require("dotenv").config();
 
-// Add the code required to import the `keys.js` file and store it in a variable.
+// Import and store the `keys.js` file in a variable.
+var keys = require("keys.js");
 
 
-
-
+// Variables
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
 
-// 10. Make it so liri.js can take in one of the following commands:
+var action = process.argv[2];
+var title = process.argv[3];
 
-    //* `my-tweets`
+// Switch statements that take in the commands.
+swicth(action) {
+    case "my-tweets":
+  myTweets();
+  break;
+    
+    case "spotify-this-song":
+  spotifyThisSong();
+  break;
+    
+    case "movie-this":
+  movieThis();
+  break;
 
-    //* `spotify-this-song`
+    case "do-what-it-says":
+  doWhatItSays();
+  break;
+};
 
-    //* `movie-this`
+function myTweets() {
+  
+}
 
-    //* `do-what-it-says`
