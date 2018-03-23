@@ -1,14 +1,14 @@
-## liri-node-app
+### liri-node-app <br />
 LIRI is a _*Language Interpretation and Recognition Interface*_, similarly to how iPhone's SIRI is a Speech Interpretation and Recongnition Interface. LIRI is a command line node app that takes in parameters and gives back data. 
 
 
-#Directions:
+##Directions <br />
 Use one of the commands to access data:
 
-1. __**my-tweets**__ 
+##1. #my-tweets <br />
 See my last 20 tweets and when they were created.
 
-2. __**spotify-this-song**__ 
+##2. #spotify-this-song <br />
 See the following information about a song of your choice (The default song is "The Sign" by Ace of Base. They're Swedish!)
 
 * Artist(s)
@@ -16,7 +16,7 @@ See the following information about a song of your choice (The default song is "
 * A preview link of the song from Spotify
 * The album that the song is from
 
-3. __**movie-this**__
+##3. movie-this <br />
 See the following information about a movie of your choice. (The default movie is "Mr Nobody")
 
 * Title of the movie.
@@ -29,7 +29,7 @@ See the following information about a movie of your choice. (The default movie i
 * Actors in the movie.
 
 
-__**This node app uses the following npm's:**__
+##This node app uses the following npm's: <br />
 * Twitter
 * Spotify
 * Request
