@@ -1,24 +1,22 @@
 
 require("dotenv").config();
 
+// Require the npm packages
 var Twitter = require("twitter");
 var Spotify = require("node-spotify-api");
 var request = require("request");
 var inquirer = require("inquirer");
+var fs = require("fs");
 
 // Import and store the "keys.js" file in a variable.
 var keys = require("./keys.js");
 
-// Variables to access the stored keys.
+// Store all of the arguments in an array (if using process.argv)
+//var nodeArgs = process.argv;
+//var action = process.argv[2];
+//var title = process.argv[3];
 
-// var client = new Twitter(keys.twitter);
-
-// Store all of the arguments in an array
-var nodeArgs = process.argv;
-
-var action = process.argv[2];
-var title = process.argv[3];
-
+// Promt the user to make a choice
 inquirer.prompt([
   {
     type: "list",
@@ -28,7 +26,7 @@ inquirer.prompt([
   }
 ]).then(function (action) {
 
-  // Switch statements that take in the commands. 
+  // Switch statements that take in the commands
   switch (action.answers) {
     case "my-tweets":
       tweet();
@@ -43,10 +41,32 @@ inquirer.prompt([
       break;
 
     case "do-what-it-says":
-      inquirer();
+      random();
       break;
   };
 });
+
+function tweet() {
+
+  var client = new Twitter(keys.twitter);
+  var params = { screen_name: 'nodejs' };
+
+  client.get('statuses/user_timeline', params, function (error, tweets, response) {
+    if (!error) {
+
+      console.log("");
+      console.log("------------------------------------------------------------");
+      console.log("");
+      console.log("HERE ARE MY 20 MOST RECENT TWEETS:");
+      console.log("");
+      console.log("TWEETS: " + tweets);
+      console.log("");
+      console.log("RESPONSE: " + response.user);
+      console.log("");
+      console.log("------------------------------------------------------------");
+    }
+  });
+};
 
 function song() {
   inquirer.prompt([
@@ -70,27 +90,28 @@ function song() {
       song = input;
     }
 
-    spotify.search({type: "track", query: "All the Small Things" }, function(err, data) { // query: song
+    spotify.search({ type: "track", query: song}, function (err, data) {
       if (err) {
         return console.log("Error occurred: " + err);
       }
-      
-      var songInfo = data;
-      console.log("Song info: " + songInfo);
+
+      var data = data.tracks.items[0];
+      console.log("Song info: " + data);
 
       //console.log(songInfo); 
-      
+
       console.log("");
       console.log("------------------------------------------------------------");
       console.log("");
-      console.log("MORE DETAILS ABOUT THE SONG " + song.toUpperCase());
+      console.log("MORE DETAILS ABOUT THE SONG: " + song.toUpperCase());
+      console.log("");
       console.log("\nArtists: " + JSON.parse(data).artists.name);
       console.log("Song: " + JSON.parse(data).name);
       console.log("A preview link of the song from Spotify: " + JSON.parse(data).external_urls[0]);
       console.log("Album: " + JSON.parse(data).album.name);
       console.log("");
       console.log("------------------------------------------------------------");
-      
+
     });
   });
 };
@@ -122,7 +143,7 @@ function movie() {
       console.log("");
       console.log("------------------------------------------------------------");
       console.log("");
-      console.log("MORE DETAILS ABOUT THE MOVIE " + movie.toUpperCase());
+      console.log("MORE DETAILS ABOUT THE MOVIE: " + movie.toUpperCase());
       console.log("\nTitle: " + JSON.parse(body).Title);
       console.log("Release Year: " + JSON.parse(body).Year);
       console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
@@ -135,4 +156,19 @@ function movie() {
       console.log("------------------------------------------------------------");
     });
   })
+};
+
+function random() {
+  fs.readFile("random.txt", "utf8", function(err, data) {
+    if (err) {
+      return console.log(err);
+    }
+
+    var songInput = data;
+    var song = songInput;
+  
+    //song();
+
+    console.log("What is data: " + data);
+  });
 };
