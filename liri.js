@@ -26,9 +26,8 @@ inquirer.prompt([
     name: "answers"
   }
 ]).then(function (action) {
-  console.log(JSON.stringify(action, null, 4));
-  console.log(action);
-
+  //console.log(JSON.stringify(action, null, 4));
+  //console.log(action);
   // Switch statements that take in the commands. 
   switch (action.answers) {
     case "my-tweets":
@@ -36,81 +35,82 @@ inquirer.prompt([
       break;
 
     case "spotify-this-song":
-        inquirer.prompt([
-          {
-            type: "input",
-            message: "What song would you like to see more details about?",
-            name: "songInput"
-          },
-        ]).then(function (response) {
 
-          song(response.songInput, "string");
-            console.log(response.songInput);
-        });
       break;
 
     case "movie-this":
-      if (choice === "movie-this") {
-        inquire.promt([
-          {
-            type: "input",
-            message: "What movie would you like to see more details about?",
-            name: "movie"
-          },
-        ]);
-      };
       movie();
       break;
 
     case "do-what-it-says":
       inquirer();
       break;
+
   };
 });
+function song() {
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "Which song would you like to see more details about?",
+      name: "name"
+    },
+  ]).then(function (response) {
+    var input = response.name;
+    var song;
 
-//function tweet() {
-//};
+    if (input === "") {
+      song = "The Sign";
+    }
+    else {
+      song = input;
+    }
+  
 
-function song(unicorn, test) {
-console.log("this is a test: " + test)
+
+  });
+}
+
+
+
+function movie() {
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "Which movie would you like to see more details about?",
+      name: "name"
+    },
+  ]).then(function (response) {
+    var input = response.name;
+    var movie;
+
+    // Default movie title is "Mr Nobody" if user fails to provide an input.
+    if (input === "") {
+      movie = "Mr Nobody";
+    }
+    else {
+      movie = input;
+    }
+
+    // Initiate query to OMDB API.
+    var queryURL = "http://www.omdbapi.com/?t=" + movie + "&apikey=trilogy";
+
+    // Request and print the outputs from the query
+    request(queryURL, function (error, response, body) {
+      console.log("");
+      console.log("------------------------------------------------------------");
+      console.log("");
+      console.log("MORE DETAILS ABOUT THE MOVIE " + movie.toUpperCase());
+      console.log("\nTitle: " + JSON.parse(body).Title);
+      console.log("Release Year: " + JSON.parse(body).Year);
+      console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+      console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+      console.log("Production Country: " + JSON.parse(body).Country);
+      console.log("Language: " + JSON.parse(body).Language);
+      console.log("Plot: " + JSON.parse(body).Plot);
+      console.log("Actors: " + JSON.parse(body).Actors);
+      console.log("");
+      console.log("------------------------------------------------------------");
+    });
+  })
 };
-
-// Query to OMDB API
-
-var queryURL = "http://www.omdbapi.com/?t=" + title + "&apikey=trilogy"
-//console.log(queryURL);
-
-//function movie() {}
-
-  request(queryURL, function (error, response, body) {
-
-  if (!error && response.statusCode === 200) {
-    /*
-    for (var i = 1; i < nodeArgs.length; i++) {
-
-      if (i > 1 && i < nodeArgs.length) {
-        movieName = movieName + "+" + nodeArgs[2];
-      }
-      if (i = 1) {
-        movieName += nodeArgs[2];
-      }
-      else if (nodeArgs[2] === undefined || nodeArgs[2] === " ") {
-        movieName = "Mr Nobody";
-      }
-      else {
-        movieName = nodeArgs[2];
-      }
-      */
-
-
-    console.log("\nTitle: " + JSON.parse(body).Title);
-    console.log("Release Year: " + JSON.parse(body).Year);
-    //console.log("OMDB Rating: " + JSON.parse(body).Ratings[0].Value);
-    //console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Rating[1].Value);
-    console.log("Production Country: " + JSON.parse(body).Country);
-    console.log("Language: " + JSON.parse(body).Language);
-    console.log("Plot: " + JSON.parse(body).Plot);
-    console.log("Actors: " + JSON.parse(body).Actors);
-
-  };
-});
