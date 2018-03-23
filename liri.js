@@ -1,19 +1,20 @@
 
 require("dotenv").config();
 
-var twitter = require("twitter");
-var spotify = require("node-spotify-api");
+var requireTwitter = require("twitter");
+var requireSpotify = require("node-spotify-api");
 var request = require("request");
 var inquirer = require("inquirer");
 
-// Import and store the `keys.js` file in a variable.
+// Import and store the "keys.js" file in a variable.
 var keys = require("./keys.js");
+
+// Variables to access the stored keys.
+// var spotify = new Spotify(keys.spotify);
+// var client = new Twitter(keys.twitter);
 
 // Store all of the arguments in an array
 var nodeArgs = process.argv;
-
-// var spotify = new Spotify(keys.spotify);
-// var client = new Twitter(keys.twitter);
 
 var action = process.argv[2];
 var title = process.argv[3];
@@ -26,8 +27,7 @@ inquirer.prompt([
     name: "answers"
   }
 ]).then(function (action) {
-  //console.log(JSON.stringify(action, null, 4));
-  //console.log(action);
+
   // Switch statements that take in the commands. 
   switch (action.answers) {
     case "my-tweets":
@@ -35,7 +35,7 @@ inquirer.prompt([
       break;
 
     case "spotify-this-song":
-
+      song();
       break;
 
     case "movie-this":
@@ -45,9 +45,9 @@ inquirer.prompt([
     case "do-what-it-says":
       inquirer();
       break;
-
   };
 });
+/*
 function song() {
   inquirer.prompt([
     {
@@ -65,12 +65,17 @@ function song() {
     else {
       song = input;
     }
-  
 
+    spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+      if (err) {
+        return console.log('Error occurred: ' + err);
+      }
 
+      console.log(data); 
+    });
   });
-}
-
+};
+*/
 
 
 function movie() {
