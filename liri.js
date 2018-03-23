@@ -1,8 +1,8 @@
 
 require("dotenv").config();
 
-var requireTwitter = require("twitter");
-var requireSpotify = require("node-spotify-api");
+var Twitter = require("twitter");
+var Spotify = require("node-spotify-api");
 var request = require("request");
 var inquirer = require("inquirer");
 
@@ -10,7 +10,7 @@ var inquirer = require("inquirer");
 var keys = require("./keys.js");
 
 // Variables to access the stored keys.
-// var spotify = new Spotify(keys.spotify);
+
 // var client = new Twitter(keys.twitter);
 
 // Store all of the arguments in an array
@@ -47,7 +47,7 @@ inquirer.prompt([
       break;
   };
 });
-/*
+
 function song() {
   inquirer.prompt([
     {
@@ -58,6 +58,10 @@ function song() {
   ]).then(function (response) {
     var input = response.name;
     var song;
+    console.log("Song title: " + input.toUpperCase());
+
+    // Connecting to keys for Spotify
+    var spotify = new Spotify(keys.spotify);
 
     if (input === "") {
       song = "The Sign";
@@ -66,17 +70,30 @@ function song() {
       song = input;
     }
 
-    spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+    spotify.search({type: "track", query: "All the Small Things" }, function(err, data) { // query: song
       if (err) {
-        return console.log('Error occurred: ' + err);
+        return console.log("Error occurred: " + err);
       }
+      
+      var songInfo = data;
+      console.log("Song info: " + songInfo);
 
-      console.log(data); 
+      //console.log(songInfo); 
+      
+      console.log("");
+      console.log("------------------------------------------------------------");
+      console.log("");
+      console.log("MORE DETAILS ABOUT THE SONG " + song.toUpperCase());
+      console.log("\nArtists: " + JSON.parse(data).artists.name);
+      console.log("Song: " + JSON.parse(data).name);
+      console.log("A preview link of the song from Spotify: " + JSON.parse(data).external_urls[0]);
+      console.log("Album: " + JSON.parse(data).album.name);
+      console.log("");
+      console.log("------------------------------------------------------------");
+      
     });
   });
 };
-*/
-
 
 function movie() {
   inquirer.prompt([
