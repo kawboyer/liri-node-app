@@ -53,17 +53,24 @@ function tweet() {
 
   client.get('statuses/user_timeline', params, function (error, tweets, response) {
     if (!error) {
+      //console.log(JSON.stringify(tweets, null, 4))
 
       console.log("");
-      console.log("------------------------------------------------------------");
+      
       console.log("");
       console.log("HERE ARE MY 20 MOST RECENT TWEETS:");
       console.log("");
-      console.log("TWEETS: " + tweets);
-      console.log("");
-      console.log("RESPONSE: " + response.user);
-      console.log("");
-      console.log("------------------------------------------------------------");
+      console.log("==============================================================")
+
+      for (var i = 0; i < tweets.length; i++) {
+        console.log("");
+        console.log("Tweet " + (i + 1) + ": " + tweets[i].text);
+        console.log("");
+        console.log("Created at: " + tweets[i].created_at);
+        console.log("");
+        console.log("------------------------------------------------------------");
+        ;
+      };
     }
   });
 };
@@ -91,6 +98,7 @@ function song() {
     }
 
     spotify.search({ type: "track", query: song}, function (err, data) {
+      console.log(data.tracks);
       if (err) {
         return console.log("Error occurred: " + err);
       }
